@@ -1,0 +1,10 @@
+#define n 10;
+channel right[n+1] 0;
+
+Send(i) = right[0]!i -> Send((i+1)%n);
+COPY(i) = right[i]?x -> right[i+1]!x -> COPY(i);
+PIPE() = || i:{0..(n+-1)} @ COPY(i);
+Read() = right[n]?x -> Read();
+System() = Send(0) || PIPE() || Read();
+
+# assert System() deadlockfree;
