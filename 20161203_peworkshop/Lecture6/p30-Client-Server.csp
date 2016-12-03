@@ -1,0 +1,14 @@
+#define n 4;
+channel in[n] 0;
+channel out[n] 0;
+#define v 1;
+
+Server(i) = out[i]!v -> in[i]?x -> Server(i);
+SERVER = ||i:{0..(n-1)}@Server(i);
+
+Client(j) = out[j]?y -> in[j]!y -> Client(j);
+CLIENT() = ||j:{0..(n-1)}@Client(j);
+
+SYSTEM = (SERVER() || CLIENT());
+
+#assert SYSTEM deadlockfree;
