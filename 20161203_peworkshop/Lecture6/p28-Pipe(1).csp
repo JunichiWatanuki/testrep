@@ -1,4 +1,4 @@
-#define n 10;
+#define n 3;
 channel right[n+1] 0;
 
 Send(i) = right[0]!i -> Send((i+1)%n);
